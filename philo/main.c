@@ -6,7 +6,7 @@
 /*   By: ohouafi <ohouafi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:12:19 by ohouafi           #+#    #+#             */
-/*   Updated: 2025/08/30 23:24:46 by ohouafi          ###   ########.fr       */
+/*   Updated: 2025/10/21 16:05:49 by ohouafi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ int	one_philo_case(t_philo *philo)
 	{
 		print_if_alive(philo, "has taken a fork");
 		ft_usleep(philo->program->time_to_die, philo);
+		pthread_mutex_lock(&philo->program->dead_lock);
 		if (!philo->program->dead_flag)
 		{
 			philo->program->dead_flag = 1;
 			printf("%lu %d died\n",
 				get_time() - philo->program->start_time, philo->id + 1);
 		}
+		pthread_mutex_unlock(&philo->program->dead_lock);
 		return (1);
 	}
 	return (0);
